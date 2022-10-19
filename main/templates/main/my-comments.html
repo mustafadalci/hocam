@@ -1,0 +1,29 @@
+{% extends "main/base.html" %}
+
+{% block title %}My Comments{% endblock %}
+
+{% block content %}
+<h1>My Comments</h1>
+<hr>
+    {% for each in comments%}
+    {% if each.user.id == user.id %}
+    <div class="card">
+        <div class="card-header">
+            {{each.lecture}} [{{each.academician.name}}]
+        </div>
+        <div class="card-body">
+            <p>{{each.text}}</p> 
+        </div>
+        <div class="card-footer">
+             
+            <div align ="right">
+                <span style="float:left;">{{each.created_at}}</span>
+                <a href="{% url 'delete-comment' each.id %}" class="btn btn-danger" >Delete</a> 
+            </div>
+        </div>
+    </div>
+    <br>
+    {% endif %}    
+{% endfor %}
+
+{% endblock %}

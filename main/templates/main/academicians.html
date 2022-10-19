@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Academicians
+{% endblock %}
+
+
+
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <h1>Academicians</h1>
+    <hr>
+    <div class="list-group">
+        
+        {% for item in academicians%}
+            {% if item.name != "NOACA" %}
+            <a href="academicians/{{item}}" class="list-group-item list-group-item-action" aria-current="true">
+                {{item}} <span style="float:right;">({{item.comment_set.all.count}} comments)</span>
+            </a>
+            {% endif %}
+        {% endfor %}
+
+      </div>
+    {% else %}
+
+    <a href="/login">Login</a> to see the content
+
+    {% endif %}
+{% endblock %}
+
+
+

@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}    
+    <h1>Profile</h2>
+    <div class="card">
+        <div class="card-body">
+            Username = {{user}}
+            <br>
+            Email = {{user.email}}
+            <br>
+            Total Comments: {{comments.count}}
+        </div>
+      </div>
+    
+{% else %}
+<a href="/login">Login</a> to see the content
+{% endif %}
+
+{% endblock %}

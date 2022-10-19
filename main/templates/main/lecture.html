@@ -1,0 +1,73 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{lecture.name}}{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+    <h3>{{lecture.name}}</h3>
+    <hr>
+    <h3>Comments</h3>
+    {% for item in lecture.comment_set.all %}
+
+        <div class="card">
+            <div class="card-header">
+                {{item.academician}}
+                {% for com in comment %}
+                    {% if item.id == com.id %}
+                        [{{com.rating}}/5]<span style="float:right;">{{com.user.username}}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="card-body">
+                <p>{{item.text}}</p> 
+            </div>
+            <div class="card-footer">
+                {{item.created_at}}
+            </div>
+        </div>
+        <br>    
+    {% endfor %}
+
+    <hr>
+    <br>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <h4>Comment</h4><br>
+        <select class="form-select" aria-label="Default select example" name="academician" id="id_academician">
+            <option selected>Choose an academician</option>
+            {% for acas in academicians %}                    
+                {% for lec in acas.lecture_set.all %}                    
+                    {% if lec.name == lecture.name %}
+                    <option value="{{acas.id}}">{{acas.name}}</option>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </select>
+        <br>
+
+        
+
+        <select class="form-select" aria-label="Default select example" name="rating" id="id_rating">
+            <option selected>Rate your experience</option>
+            {{form.rating.1}}
+            {{form.rating.2}}
+            {{form.rating.3}}
+            {{form.rating.4}}
+            {{form.rating.5}}
+        </select>
+          
+        <br>
+        <textarea type="text" class="form-control" name="text" maxlength="10000" required id="id_text" cols="70" rows="8" placeholder="Comment here..."></textarea>
+        <br>
+        <button type="submit" name="newComment" value="newComment" class="btn btn-success">Comment</button>
+    </form>
+
+
+{% else %}
+<a href="/login">Login</a> to see the content
+{% endif %}
+
+{% endblock %}
